@@ -29,6 +29,22 @@ services:
         condition: service_completed_successfully
     command: PUT http://pubsub:8085/v1/projects/test-project/subscriptions/scan-sub topic=projects/test-project/topics/scan-topic --ignore-stdin 
 
+  # Runs the "processor"
+  processor:
+    depends_on:
+      mk-subscription:
+        condition: service_completed_successfully
+    environment:
+      PUBSUB_EMULATOR_HOST: pubsub:8085
+      PUBSUB_PROJECT_ID: test-project
+    build:
+      context: .
+      dockerfile: ./cmd/processor/Dockerfile
+    volumes:
+      - scan-data:/app/data
+    command: ["./processor", "-db", "/app/data/scans.db"]
+    user: "${UID}:${GID}"
+
   # Runs the "scanner"
   scanner:
     depends_on:
@@ -40,3 +56,6 @@ services:
     build:
       context: .
       dockerfile: ./cmd/scanner/Dockerfile
+
+volumes:
+  scan-data:
