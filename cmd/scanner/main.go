@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/censys/scan-takehome/pkg/scanning"
+	"github.com/cmagorian/scan-takehome/pkg/scanning"
 )
 
 var (
