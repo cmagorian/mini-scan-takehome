@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/censys/scan-takehome/pkg/repository"
+	"github.com/cmagorian/scan-takehome/pkg/repository"
 	_ "github.com/mattn/go-sqlite3"
 )
 

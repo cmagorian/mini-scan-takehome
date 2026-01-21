@@ -15,9 +15,9 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/censys/scan-takehome/pkg/repository/sqlite"
-	"github.com/censys/scan-takehome/pkg/scanning"
-	"github.com/censys/scan-takehome/pkg/service"
+	"github.com/cmagorian/scan-takehome/pkg/repository/sqlite"
+	"github.com/cmagorian/scan-takehome/pkg/scanning"
+	"github.com/cmagorian/scan-takehome/pkg/service"
 )
 
 func Run(ctx context.Context, projectID, subscriptionID, dbPath string, logger *log.Logger) error {

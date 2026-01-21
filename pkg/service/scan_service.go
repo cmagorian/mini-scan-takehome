@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/censys/scan-takehome/pkg/repository"
-	"github.com/censys/scan-takehome/pkg/scanning"
+	"github.com/cmagorian/scan-takehome/pkg/repository"
+	"github.com/cmagorian/scan-takehome/pkg/scanning"
 )
 
 type scanService struct {

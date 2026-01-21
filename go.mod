@@ -1,4 +1,4 @@
-module github.com/censys/scan-takehome
+module github.com/cmagorian/scan-takehome
 
 go 1.20
 

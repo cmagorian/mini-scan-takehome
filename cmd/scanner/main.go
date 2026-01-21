@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/censys/scan-takehome/pkg/scanning"
+	"github.com/cmagorian/scan-takehome/pkg/scanning"
 )
 
 var (
@@ -30,30 +30,32 @@ func main() {
 	topic := client.Topic(*topicId)
 
 	for range time.Tick(time.Second) {
-		for i := 0; i < 10; i++ {
-			scan := &scanning.Scan{
-				Ip:        fmt.Sprintf("1.1.1.%d", rand.Intn(255)),
-				Port:      uint32(rand.Intn(65535)),
-				Service:   services[rand.Intn(len(services))],
-				Timestamp: time.Now().Unix(),
-			}
 
-			serviceResp := fmt.Sprintf("service response: %d", rand.Intn(100))
+		scan := &scanning.Scan{
+			Ip:        fmt.Sprintf("1.1.1.%d", rand.Intn(255)),
+			Port:      uint32(rand.Intn(65535)),
+			Service:   services[rand.Intn(len(services))],
+			Timestamp: time.Now().Unix(),
+		}
 
-			if rand.Intn(2) == 0 {
-				scan.DataVersion = scanning.V1
-				scan.Data = &scanning.V1Data{ResponseBytesUtf8: []byte(serviceResp)}
-			} else {
-				scan.DataVersion = scanning.V2
-				scan.Data = &scanning.V2Data{ResponseStr: serviceResp}
-			}
+		serviceResp := fmt.Sprintf("service response: %d", rand.Intn(100))
 
-			encoded, err := json.Marshal(scan)
-			if err != nil {
-				panic(err)
-			}
+		if rand.Intn(2) == 0 {
+			scan.DataVersion = scanning.V1
+			scan.Data = &scanning.V1Data{ResponseBytesUtf8: []byte(serviceResp)}
+		} else {
+			scan.DataVersion = scanning.V2
+			scan.Data = &scanning.V2Data{ResponseStr: serviceResp}
+		}
 
-			topic.Publish(ctx, &pubsub.Message{Data: encoded})
+		encoded, err := json.Marshal(scan)
+		if err != nil {
+			panic(err)
+		}
+
+		_, err = topic.Publish(ctx, &pubsub.Message{Data: encoded}).Get(ctx)
+		if err != nil {
+			panic(err)
 		}
 	}
 }

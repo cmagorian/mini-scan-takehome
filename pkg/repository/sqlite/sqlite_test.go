@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/censys/scan-takehome/pkg/repository"
-	"github.com/censys/scan-takehome/pkg/scanning"
+	"github.com/cmagorian/scan-takehome/pkg/repository"
+	"github.com/cmagorian/scan-takehome/pkg/scanning"
 )
 
 // TestSQLiteRepository_UpsertScan verifies the core idempotency and out-of-order
